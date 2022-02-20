@@ -12,7 +12,6 @@ This template is for generating a Go wrapper for the NATS client based on your A
 
 Have you found a bug or have an idea for improvement? Feel free to contribute! See [the contribution guidelines](#Contributing) for how to do so.
 
-
 ## Requirements
 * @asyncapi/generator < v2.0.0 >v1.1.1
 
