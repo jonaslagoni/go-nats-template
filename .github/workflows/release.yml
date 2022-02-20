@@ -20,24 +20,17 @@ jobs:
           git config --global core.eol lf
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Check if Node.js project and has package.json
-        id: packagejson
-        run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
-        shell: bash
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Install dependencies
+      - name: Install dependencies
         run: npm install
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Run test
+      - name: Run test
         run: npm test
-release:
+  release:
     needs: test
     name: Publish to any of NPM, Github, and Docker Hub
     runs-on: ubuntu-latest
