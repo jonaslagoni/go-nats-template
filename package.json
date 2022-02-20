@@ -24,7 +24,7 @@
 		"lint": "./node_modules/.bin/eslint --max-warnings 0 --config .eslintrc .",
 		"lint:fix": "./node_modules/.bin/eslint --max-warnings 0 --config .eslintrc . --fix",
 		"test": "echo \"No unit tests specified yet\"",
-		"generate:assets": "npm run generate:examples",
+		"generate:assets": "echo \"No assets needed\"",
 		"bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION"
 	},
 	"dependencies": {
