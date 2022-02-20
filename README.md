@@ -17,6 +17,7 @@ Have you found a bug or have an idea for improvement? Feel free to contribute! S
 
 Install the generator through [npm or run it from docker official installer](https://github.com/asyncapi/generator#install).
 
+
 # Contributing
 
 Before contributing, please read the [CONTRIBUTING](CONTRIBUTING.md) document.
