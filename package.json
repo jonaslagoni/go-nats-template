@@ -1,6 +1,6 @@
 {
 	"name": "@lagoni/go-nats-template",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "NATS Go template for the AsyncAPI generator.",
 	"keywords": [
 		"asyncapi",

@@ -1,6 +1,6 @@
 
+import { File } from '@asyncapi/generator-react-sdk';
 // eslint-disable-next-line no-unused-vars
-import { GoGenerator } from '@asyncapi/modelina';
 import { AsyncAPIDocument } from '@asyncapi/parser';
 import { pascalCase, getMessageType } from '../utils';
 
@@ -18,34 +18,30 @@ import { pascalCase, getMessageType } from '../utils';
  * @property {TemplateParameters} params received from the generator.
  */
 
-
 /**
  * Function to render file.
  * 
  * @param {RenderArgument} param0 render arguments received from the generator.
  */
 export default function index({ asyncapi, params }) {
-
-    const publishChannelCode = Object.entries(asyncapi.channels()).filter(([_, channel]) => { return channel.hasPublish() }).map(([channelName, channel]) => {
-        return `
+  const publishChannelCode = Object.entries(asyncapi.channels()).filter(([_, channel]) => { return channel.hasPublish(); }).map(([channelName, channel]) => {
+    return `
 func (s *NatsClient) publishTo${pascalCase(channelName)}(m ${getMessageType(channel.publish().message(0))}) error {
     return s.nc.Publish("${channelName}", m)
 }
-`
-    });
-    const subscribeChannelCode = Object.entries(asyncapi.channels()).filter(([_, channel]) => { return channel.hasSubscribe() }).map(([channelName, channel]) => {
-        const generator = new GoGenerator();
-        const payloadType = generator.renderStruct
-        return `
+`;
+  });
+  const subscribeChannelCode = Object.entries(asyncapi.channels()).filter(([_, channel]) => { return channel.hasSubscribe(); }).map(([channelName, channel]) => {
+    return `
 func (s *NatsClient) subscribeTo${pascalCase(channelName)}(callback func(${getMessageType(channel.publish().message(0))})) (*nats.Subscription, error) {
 	return s.nc.Subscribe("${channelName}", callback)
 }
-`
-    });
+`;
+  });
 
-    return (
-        <File name="nats_client.go">
-            {`
+  return (
+    <File name="nats_client.go">
+      {`
 package server
 
 import (
@@ -77,6 +73,6 @@ ${publishChannelCode.join('\n')}
 
 ${subscribeChannelCode.join('\n')}
   `}
-        </File>
-    );
+    </File>
+  );
 }

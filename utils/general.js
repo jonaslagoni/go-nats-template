@@ -2,7 +2,6 @@ import _ from 'lodash';
 import {FormatHelpers} from '@asyncapi/modelina';
 // eslint-disable-next-line no-unused-vars
 import { Message, Schema, AsyncAPIDocument} from '@asyncapi/parser';
-import { GoRenderer } from '@asyncapi/modelina/lib/types/generators/go/GoRenderer';
 const contentTypeJSON = 'application/json';
 const contentTypeString = 'text/plain';
 const contentTypeBinary = 'application/octet-stream';
