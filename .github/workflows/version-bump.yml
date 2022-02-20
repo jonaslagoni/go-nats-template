@@ -30,9 +30,9 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-          commit-message: 'chore(release): ${{ steps.extractver.outputs.version }}'
+          commit-message: 'chore(release): ${{github.event.release.tag_name}}'
           committer: jonaslagoni <jonas-lt@live.dk>
           author: jonaslagoni <jonas-lt@live.dk>
-          title: 'chore(release): ${{ steps.extractver.outputs.version }}'
-          body: 'Version bump in package.json and package-lock.json for release [${{ steps.extractver.outputs.version }}](https://github.com/${{github.repository}}/releases/tag/v${{ steps.extractver.outputs.version }})'
-          branch: version-bump/${{ steps.extractver.outputs.version }}
+          title: 'chore(release): ${{github.event.release.tag_name}}'
+          body: 'Version bump in package.json for release [${{github.event.release.tag_name}}](${{github.event.release.html_url}})'
+          branch: version-bump/${{github.event.release.tag_name}} 
