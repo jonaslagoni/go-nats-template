@@ -1,0 +1,38 @@
+name: Version bump
+
+on: 
+  release:
+    types: 
+      - published
+
+jobs:
+  version_bump:
+    name: Generate assets and bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          # target branch of release. More info https://docs.github.com/en/rest/reference/repos#releases
+          # in case release is created from release branch then we need to checkout from given branch
+          # if @semantic-release/github is used to publish, the minimum version is 7.2.0 for proper working
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Install dependencies
+        run: npm install
+      - name: Assets generation
+        run: npm run generate:assets
+      - name: Bump version in package.json
+        # There is no need to substract "v" from the tag as version script handles it
+        # When adding "bump:version" script in package.json, make sure no tags are added by default (--no-git-tag-version) as they are already added by release workflow
+        # When adding "bump:version" script in package.json, make sure --allow-same-version is set in case someone forgot and updated package.json manually and we want to avoide this action to fail and raise confusion
+        run: VERSION=${{github.event.release.tag_name}} npm run bump:version
+      - name: Create Pull Request with updated asset files including package.json
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: 'chore(release): ${{ steps.extractver.outputs.version }}'
+          committer: jonaslagoni <jonas-lt@live.dk>
+          author: jonaslagoni <jonas-lt@live.dk>
+          title: 'chore(release): ${{ steps.extractver.outputs.version }}'
+          body: 'Version bump in package.json and package-lock.json for release [${{ steps.extractver.outputs.version }}](https://github.com/${{github.repository}}/releases/tag/v${{ steps.extractver.outputs.version }})'
+          branch: version-bump/${{ steps.extractver.outputs.version }}
