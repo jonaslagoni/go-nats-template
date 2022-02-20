@@ -2,7 +2,7 @@
 import { File } from '@asyncapi/generator-react-sdk';
 // eslint-disable-next-line no-unused-vars
 import { AsyncAPIDocument } from '@asyncapi/parser';
-import { pascalCase, getMessageType } from '../utils';
+import { pascalCase, getMessageType } from '../utils/index';
 
 /**
  * @typedef TemplateParameters
@@ -33,7 +33,7 @@ func (s *NatsClient) publishTo${pascalCase(channelName)}(m ${getMessageType(chan
   });
   const subscribeChannelCode = Object.entries(asyncapi.channels()).filter(([_, channel]) => { return channel.hasSubscribe(); }).map(([channelName, channel]) => {
     return `
-func (s *NatsClient) subscribeTo${pascalCase(channelName)}(callback func(${getMessageType(channel.publish().message(0))})) (*nats.Subscription, error) {
+func (s *NatsClient) subscribeTo${pascalCase(channelName)}(callback func(${getMessageType(channel.subscribe().message(0))})) (*nats.Subscription, error) {
 	return s.nc.Subscribe("${channelName}", callback)
 }
 `;
